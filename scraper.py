@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 # Base URL and output directory
 base_url = "http://learnyouahaskell.com/"
-output_dir = "docs"
+output_dir = "."
 os.makedirs(output_dir, exist_ok=True)
 
 # Localhost root for serving files
