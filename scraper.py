@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 # Base URL and output directory
 base_url = "http://learnyouahaskell.com/"
-output_dir = "learnyouahaskell"
+output_dir = "root"
 os.makedirs(output_dir, exist_ok=True)
 
 # Localhost root for serving files
@@ -35,7 +35,7 @@ if response.status_code == 200:
             link['href'] = localhost_root + local_links[link['href']]
 
     # Save the updated chapters page locally
-    chapters_path = os.path.join(output_dir, "chapters.html")
+    chapters_path = os.path.join(output_dir, "index.html")
     with open(chapters_path, "w", encoding="utf-8") as file:
         file.write(str(soup))
     print(f"Saved chapters page: {chapters_path}")
@@ -80,6 +80,8 @@ if response.status_code == 200:
                 href = a_tag['href']
                 if href in local_links:
                     a_tag['href'] = localhost_root + local_links[href]
+                elif href == "chapters":
+                    a_tag['href'] = localhost_root
 
             # Save the chapter locally
             output_path = os.path.join(output_dir, local_file)
@@ -90,7 +92,3 @@ if response.status_code == 200:
             print(f"Failed to fetch {chapter_url}")
 else:
     print(f"Failed to fetch the chapters page: {chapters_url}")
-
-# Rename chapters.html to index.html for localhost serving
-os.rename(os.path.join(output_dir, "chapters.html"), os.path.join(output_dir, "index.html"))
-print("All chapters processed and saved. Ready for localhost serving.")
